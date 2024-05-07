@@ -34,7 +34,7 @@ async def capture_and_send_image():
 
     # Create CoAP message
     request = Message(code=POST, payload=img_bytes)
-    request.opt.uri_host = 'your_server_ip'  # Replace with server IP
+    request.opt.uri_host = '34.135.8.134'  # Replace with server IP
     request.opt.uri_path = ('capture_image',)
 
     # Send CoAP message

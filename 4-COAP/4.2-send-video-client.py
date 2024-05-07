@@ -50,7 +50,7 @@ async def send_video():
 
     # Create CoAP message
     request = Message(code=POST, payload=video_data)
-    request.opt.uri_host = 'your_server_ip'  # Replace with server IP
+    request.opt.uri_host = '34.135.8.134'  # Replace with server IP
     request.opt.uri_path = ('capture_video',)
 
     # Send CoAP message
