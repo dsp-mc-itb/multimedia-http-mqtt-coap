@@ -40,7 +40,7 @@ def capture_video():
     print("Video captured successfully!")
 
     # Send video to server
-    url = 'http://your_server_endpoint'
+    url = 'http://34.135.8.134/upload'
     files = {'video': open('captured_video.avi', 'rb')}
     response = requests.post(url, files=files)
 
