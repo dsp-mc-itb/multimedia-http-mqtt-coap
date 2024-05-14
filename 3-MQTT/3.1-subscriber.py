@@ -3,7 +3,7 @@ import numpy as np
 import paho.mqtt.client as mqtt
 
 # MQTT Broker details
-broker_address = "your_broker_ip"
+broker_address = "34.133.55.11"
 broker_port = 1883
 topic = "webcam"
 

@@ -1,46 +1,32 @@
 import cv2
-import numpy as np
+import aiocoap
 import asyncio
-from aiocoap import Context, Message, POST
+import base64
 
-async def capture_and_send_image():
-    # Initialize the webcam
+async def send_image():
+    # Capture image from webcam
     cap = cv2.VideoCapture(0)
-
-    # Check if the webcam is opened correctly
-    if not cap.isOpened():
-        print("Error: Could not open webcam")
-        return
-
-    # Capture frame-by-frame
     ret, frame = cap.read()
-
-    # Check if the frame is captured correctly
-    if not ret:
-        print("Error: Could not capture frame")
-        return
-
-    # Release the webcam
     cap.release()
 
-    # Encode image as jpeg
-    _, img_encoded = cv2.imencode('.jpg', frame)
+    if not ret:
+        print("Failed to capture image")
+        return
 
-    # Convert numpy array to bytes
-    img_bytes = img_encoded.tobytes()
+    # Encode the image to JPEG
+    _, buffer = cv2.imencode('.jpg', frame)
+    image_data = base64.b64encode(buffer.tobytes())
 
-    # Create CoAP context
-    context = await Context.create_client_context()
+    # Create CoAP client context
+    context = await aiocoap.Context.create_client_context()
 
-    # Create CoAP message
-    request = Message(code=POST, payload=img_bytes)
-    request.opt.uri_host = '34.135.8.134'  # Replace with server IP
-    request.opt.uri_path = ('capture_image',)
+    # Create CoAP POST request
+    request = aiocoap.Message(code=aiocoap.POST, uri='coap://127.0.0.1/image', payload=image_data)
 
-    # Send CoAP message
+    # Send the request and await response
     response = await context.request(request).response
 
-    print("Image sent to server successfully!")
+    print('Result: %s\n%r'%(response.code, response.payload))
 
 if __name__ == "__main__":
-    asyncio.run(capture_and_send_image())
+    asyncio.run(send_image())

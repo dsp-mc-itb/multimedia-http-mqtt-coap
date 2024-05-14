@@ -25,7 +25,7 @@ def capture_image():
     _, img_encoded = cv2.imencode('.jpg', frame)
 
     # Send image to server
-    url = 'http://34.135.8.134/upload'
+    url = 'http://34.133.55.11/upload'
     files = {'image': img_encoded.tobytes()}
     response = requests.post(url, files=files)
 
