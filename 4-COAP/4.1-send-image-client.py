@@ -1,3 +1,4 @@
+import aiocoap.optiontypes
 import cv2
 import aiocoap
 import asyncio
